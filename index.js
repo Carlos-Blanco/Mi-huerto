@@ -8,10 +8,20 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
+        const data = require('./data/main.json');
+        const template = require('./templates/main.json');
+        
         const speakOutput = 'Hola, pregúntame que puedo sembrar y te diré los cultivos que se adaptan a cada mes del año.';
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
+            .addDirective({
+                type: "Alexa.Presentation.APL.RenderDocument",
+                version: '1.0',
+                document: template,
+                datasources: data
+                
+            })
             .getResponse();
     }
 };
@@ -66,7 +76,7 @@ const SowIntentHandler = {
                 .getResponse();
         }
         if(n === 6) {
-            const speakOutput = 'A finales de Junio da comienzo el verano y empezamos a recoger los frutos del trabajo realizado en nuestro huerto durante meses anteriores. Pero hay que seguir preparando cultivos para meses futuros. Estos son los cultivos que puedes sembrar. La acelga se siembra durante todo el año. Se realiza de forma directa en la tierra. También podemos sembrar durante todo el año espinacas por siembra directa. Las lechugas se siembran en semillero protegido y se trasplantan una vez tengan cuatro o cinco hojas. Los rabanitos se siembran directamente en la tierra. Otro de los cultivos que se puede sembrar durante todo el año es la zanahoria. Se realiza una siembra directa. Si no lo hemos hecho todavía, es el último mes de la temporada para sembrar apio. Se siembra en semillero y se trasplanta cuando tenga unos diez centímetros. Otros cultivos que podemos sembrar en junio son la rúcula y el canónigo. Ambos se siembran directamente en la tierra. Para las judías se realiza una siembra de asiento. También podemos sembrar coles en semillero y escarolas directamente en la tierra. También es el último mes de siembra de cucurbitáceas, como son el calabacín, el pepino, el melón y la sandía, y se realiza mediante siembra directa. También podemos sembrar en semillero tomates, al igual que la alcachofa que trasplantaremos una vez que la planta tenga unos diez centímetros. Mientras que la remolacha, el maiz o las fresas las podemos empezar a sembrar directamente en la tierra. En junio seguimos con la siembra del brócoli y la coliflor. Se siembran en semillero y se trasplantan cuando alcancen entre doce y quince centímetros. Ten en cuenta que este calendario es orientativo y puede tener variaciones dependiendo del clima de la zona en que te encuentres.';
+            const speakOutput = 'En Julio podemos sembrar Acelga, Alcachofa, Apio, Berenjena, Berro, Berza, Brécol, Cacahuete, Cardo, Col Bruselas, Coliflor, Escarola, Espinaca, Fresa, Fresón, Lechuga, Nabo, Patata, Pepino, Tomate, Zanahoria y judías.';
             return handlerInput.responseBuilder
                 .speak(speakOutput)
                 //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
