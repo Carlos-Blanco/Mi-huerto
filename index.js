@@ -8,20 +8,28 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        //const data = require('./data/main.json');
-        //const template = require('./templates/main.json');
-        
-        const speakOutput = 'Hola, pregúntame que puedo sembrar y te diré los cultivos que se adaptan a cada mes del año.';
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            //.addDirective({
-            //    type: "Alexa.Presentation.APL.RenderDocument",
-            //    version: '1.0',
-            //    document: template,
-            //    datasources: data
-            //})
-            .getResponse();
+        if (handlerInput.requestEnvelope.context.System.device.supportedInterfaces['Alexa.Presentation.APL']) { 
+            const data = require('./data/main.json');
+            const template = require('./templates/main.json');
+            
+            const speakOutput = 'Hola, pregúntame que puedo sembrar y te diré los cultivos que se adaptan a cada mes del año.';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt(speakOutput)
+                .addDirective({
+                   type: "Alexa.Presentation.APL.RenderDocument",
+                   version: '1.0',
+                   document: template,
+                   datasources: data
+                })
+                .getResponse();
+        } else {
+            const speakOutput = 'Hola, pregúntame que puedo sembrar y te diré los cultivos que se adaptan a cada mes del año.';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt(speakOutput)
+                .getResponse();
+        }
     }
 };
 const SowIntentHandler = {
